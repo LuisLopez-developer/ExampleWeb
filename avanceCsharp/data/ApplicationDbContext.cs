@@ -11,5 +11,7 @@ namespace avanceCsharp.data
         public DbSet<Producto> Producto { get; set; }
 
         public DbSet<Personal> Personal { get; set; }
+
+        public DbSet<Categoria> Categoria { get; set; }
     }
 }
