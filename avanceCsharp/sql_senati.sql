@@ -29,7 +29,7 @@ CREATE TABLE tb_categoria (
 -- Crear tabla para el producto
 CREATE TABLE tb_producto (
     codigo_producto CHAR(5) NOT NULL PRIMARY KEY,
-    producto VARCHAR(100) NOT NULL,
+    producto VARCHAR(40) NOT NULL,
     stock_disponible INT,
     costo decimal(10,2),
     ganancia decimal(10,2),

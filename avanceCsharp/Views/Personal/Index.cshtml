@@ -1,0 +1,59 @@
+﻿@model IEnumerable<avanceCsharp.Models.Personal>
+
+    @{
+        ViewData["Title"] = "Index";
+        Layout = "~/Views/Shared/_Layout.cshtml";
+    }
+
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-3 mb-2">
+                <a class="btn btn-success" asp-controller="Personal"
+               asp-action="Create">Agregar Personal</a>
+            </div>
+        </div>
+
+        <div class="row">
+            @if (Model.Count() > 0)
+            {
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <td>@Html.DisplayNameFor(per => per.dni)</td>
+                            <td>@Html.DisplayNameFor(per => per.ap_paterno)</td>
+                            <td>@Html.DisplayNameFor(per => per.ap_materno)</td>
+                            <td>@Html.DisplayNameFor(per => per.nombre)</td>
+                            <td>@Html.DisplayNameFor(per => per.genero)</td>
+                            <td>@Html.DisplayNameFor(per => per.fecha_nacimiento)</td>
+                            <td>@Html.DisplayNameFor(per => per.sueldo)</td>
+                            <td>Acciones</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var reg in Model)
+                        {
+                            <tr>
+                            <td>@reg.dni</td>
+                            <td>@reg.ap_paterno</td>
+                            <td>@reg.ap_materno</td>
+                            <td>@reg.nombre</td>
+                            <td>@reg.genero</td>
+                            <td>@reg.fecha_nacimiento</td>
+                            <td>@reg.sueldo</td>
+                                <td>
+                                    <a class="btn btn-outline-warning btn-sm" asp-controller="Personal"
+                                   asp-action="Edit" asp-route-id="@reg.dni"><i class="fas fa-edit"></i>Editar</a>
+                                    <a class="btn btn-outline-danger btn-sm" asp-controller="personal"
+                                   asp-action="Delete" asp-route-id="@reg.dni"><i class="fas fa-trash-alt"></i>Eliminar</a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            }
+            else
+            {
+                <p>No existen registros</p>
+            }
+        </div>
+    </div>

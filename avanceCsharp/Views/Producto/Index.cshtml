@@ -1,0 +1,59 @@
+﻿@model IEnumerable<avanceCsharp.Models.Producto>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container">
+    <div class="row">
+        <div class="col-sm-3 mb-2">
+            <a class="btn btn-success" asp-controller="Producto"
+            asp-action="Create">Agregar Producto</a>
+        </div>
+    </div>
+
+    <div class="row">
+        @if (Model.Count() > 0)
+        {
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <td>@Html.DisplayNameFor(pro => pro.codigo_producto)</td>
+                        <td>@Html.DisplayNameFor(pro => pro.producto)</td>
+                        <td>@Html.DisplayNameFor(pro => pro.stock_disponible)</td>
+                        <td>@Html.DisplayNameFor(pro => pro.costo)</td>
+                        <td>@Html.DisplayNameFor(pro => pro.ganancia)</td>
+                        <td>@Html.DisplayNameFor(pro => pro.producto_codigo_marca)</td>
+                        <td>@Html.DisplayNameFor(pro => pro.producto_codigo_categoria)</td>
+                        <td>Acciones</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var reg in Model)
+                    {
+                        <tr>
+                            <td>@reg.codigo_producto</td>
+                            <td>@reg.producto</td>
+                            <td>@reg.stock_disponible</td>
+                            <td>@reg.costo</td>
+                            <td>@reg.ganancia</td>
+                            <td>@reg.producto_codigo_marca</td>
+                            <td>@reg.producto_codigo_categoria</td>
+                            <td>
+                                <a class="btn btn-outline-warning btn-sm" asp-controller="Producto"
+                                   asp-action="Edit" asp-route-id="@reg.codigo_producto"><i class="fas fa-edit"></i>Editar</a>
+                                <a class="btn btn-outline-danger btn-sm" asp-controller="Producto"
+                                   asp-action="Delete" asp-route-id="@reg.codigo_producto"><i class="fas fa-trash-alt"></i>Eliminar</a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+        else
+        {
+            <p>No existen registros</p>
+        }
+    </div>
+</div>
