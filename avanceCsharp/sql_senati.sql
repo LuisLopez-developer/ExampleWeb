@@ -29,7 +29,7 @@ CREATE TABLE tb_categoria (
 -- Crear tabla para el producto
 CREATE TABLE tb_producto (
     codigo_producto CHAR(5) NOT NULL PRIMARY KEY,
-    producto VARCHAR(40) NOT NULL,
+    producto VARCHAR(100) NOT NULL,
     stock_disponible INT,
     costo decimal(10,2),
     ganancia decimal(10,2),
@@ -95,6 +95,77 @@ CREATE TABLE tb_detalle_venta (
 
 set dateformat 'dmy'
 go
+
+create procedure sp_listar_producto
+as
+begin 
+	select p.codigo_producto,p.producto, p.costo, p.ganancia , p.stock_disponible, c.categoria, m.marca
+	from tb_producto p
+	inner join tb_categoria c on p.producto_codigo_categoria = c.codigo_categoria
+	inner join tb_marca m on p.producto_codigo_marca = m.codigo_marca
+end
+go
+
+create procedure sp_buscar_producto
+(
+	@producto varchar(100)
+)
+as
+begin
+	select p.codigo_producto,p.producto, p.costo, p.ganancia , p.stock_disponible, c.categoria, m.marca
+	from tb_producto p
+	inner join tb_categoria c on p.producto_codigo_categoria = c.codigo_categoria
+	inner join tb_marca m on p.producto_codigo_marca = m.codigo_marca
+	where p.producto like CONCAT('%', @producto, '%')
+end
+go
+
+-- Crear la tabla tb_personal
+CREATE TABLE tb_personal(
+    dni CHAR(8) NOT NULL PRIMARY KEY,
+    ap_paterno VARCHAR(25) NOT NULL,
+    ap_materno VARCHAR(25) NOT NULL,
+    nombre VARCHAR(25) NOT NULL,
+    genero CHAR(1),
+    fecha_nacimiento DATE, 
+    sueldo DECIMAL(10, 2)
+)
+GO
+
+-- Crear el procedimiento almacenado sp_listar_y_buscar_personal
+CREATE PROCEDURE sp_listar_y_buscar_personal
+(
+    @ap_paterno VARCHAR(25) = NULL,
+    @ap_materno VARCHAR(25) = NULL
+)
+AS
+BEGIN
+    SELECT dni, ap_paterno, ap_materno, nombre, genero, fecha_nacimiento, sueldo
+    FROM tb_personal
+    WHERE (@ap_paterno IS NULL OR ap_paterno LIKE CONCAT('%', @ap_paterno, '%'))
+      AND (@ap_materno IS NULL OR ap_materno LIKE CONCAT('%', @ap_materno, '%'))
+END
+GO
+
+CREATE PROCEDURE sp_consultar_personal
+    @dni CHAR(8)
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    SELECT dni, ap_paterno, ap_materno, nombre, genero, fecha_nacimiento, sueldo
+    FROM tb_personal
+    WHERE dni LIKE '%' + @dni + '%';
+END
+go
+
+CREATE PROCEDURE sp_listar_personal
+AS
+BEGIN
+    SELECT *
+    FROM tb_personal order by ap_paterno asc;
+END
+GO
 
 insert into tb_personal values
 	('74716427', 'lopez', 'huari', 'luis', 'm', '27-05-2003', 1525.20),
